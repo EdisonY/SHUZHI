@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+            <title>数知科技</title>
+            <link rel="stylesheet" href="css/reset.css">
+            <script type="text/javascript" src="js/jquery.min.js"></script>
+            <script type="text/javascript" src="js/jquery.easing.min.js"></script>
+            <link href="img/icon.png" rel="SHUZHI ICON">
+        </head>
+    <body>
+        <div class="login">
+            <img src="img/logo.jpeg" alt="">
+            <input type="tel" name="" value="" placeholder="手机号码" class="phone">
+            <input type="password" name="" value="" placeholder="登录密码" class="pd">
+            <a href="javascript:void(0)" class="loginBtn">登录</a>
+        </div>
+        <div class="loading">
+            <img src="img/timg.gif" alt="">
+        </div>
+        <div class="preview common">
+            <div class="header">
+                设备信息
+            </div>
+            <div class="main">
+                <h2>灯杆编号</h2>
+                <h3>190101001</h3>
+                <p>灯杆类型：单灯智慧</p>
+            </div>
+            <div class="list">
+                <ul class="clearfix">
+                    <li class="li1" value="dandeng">单灯控制器</li>
+                    <li class="li2" value="wanghe">网盒</li>
+                    <li class="li3" value="baojing">一键报警</li>
+                    <li class="li4" value="yinxiang">音响</li>
+                    <li class="li5" value="wifi">Wi-Fi</li>
+                    <li class="li6" value="shexiang">摄像头</li>
+                    <li class="li7" value="jiance">环境监测</li>
+                </ul>
+            </div>
+        </div>
+        <div class="single common">
+            <div class="header">
+                <img src="img/left.png" alt="" class="return">
+                <span></span>
+            </div>
+            <div class="single_main">
+                <h3>
+                    单灯控制器1
+                    <a href="javascript:void(0)"></a>
+                </h3>
+                <ul>
+                    <li>IP地址：192.168.0.0</li>
+                    <li>MAC地址：322135435454</li>
+                    <li>质保到期：2019.04.25</li>
+                    <li>产地：山东济南</li>
+                    <li>维修记录：在2019.03.01更换灯头</li>
+                </ul>
+            </div>
+            <div class="single_main">
+                <h3>
+                    单灯控制器2
+                </h3>
+                <ul>
+                    <li>IP地址：192.168.0.0</li>
+                    <li>MAC地址：322135435454</li>
+                    <li>质保到期：2019.04.25</li>
+                    <li>产地：山东济南</li>
+                    <li>维修记录：在2019.03.01更换灯头</li>
+                </ul>
+            </div>
+        </div>
+        <div class="edit common">
+            <div class="header">
+                <img src="img/left.png" alt="" class="return">
+                <span>单灯控制器</span>
+            </div>
+            <div class="single_main">
+                <h3>
+                    单灯控制器1
+                </h3>
+                <ul>
+                    <li>IP地址：192.168.0.0</li>
+                    <li>MAC地址：322135435454</li>
+                    <li>质保到期：2019.04.25</li>
+                    <li>产地：山东济南</li>
+                    <li>维修记录：在2019.03.01更换灯头</li>
+                </ul>
+            </div>
+            <h4>点击修改</h4>
+            <ul class="edit_ul">
+                <li class="clearfix">
+                    <span>IP地址：</span>
+                    <input type="text" name="" value="">
+                </li>
+                <li class="clearfix">
+                    <span>MAC地址：</span>
+                    <input type="text" name="" value="">
+                </li>
+                <li class="clearfix">
+                    <span>质保到期：</span>
+                    <input type="date" name="" value="1992-12-18" style="line-height:.8rem;">
+                </li>
+                <li class="clearfix">
+                    <span>产地：</span>
+                    <input type="text" name="" value="">
+                </li>
+                <li class="clearfix">
+                    <span>维修记录：</span>
+                    <input type="text" name="" value="">
+                </li>
+            </ul>
+            <a href="javascript:void(0)" class="submit">保存</a>
+        </div>
+    </body>
+    <script type="text/javascript">
+    var type = ''
+    var title = ''
+    $('.loginBtn').click(function(){
+        $('.login').fadeOut()
+        $('.loading').fadeIn()
+        setTimeout(function(){
+            $('.loading').fadeOut()
+            $('.preview').fadeIn()
+        },3000)
+    })
+    $('.list li').click(function(){
+        type = $(this).attr('value')
+        title = $(this).text()
+
+        $('.preview').fadeOut()
+        $('.single').fadeIn()
+
+        $('.header span').text(title)
+    })
+
+    $('.single_main h3 a').click(function(){
+        $('.single').fadeOut()
+        $('.edit').fadeIn()
+    })
+
+    $('.return').click(function(){
+        $(this).parents('.common').fadeOut()
+        $(this).parents('.common').prev('.common').fadeIn()
+
+
+
+    })
+
+    </script>
+
+</html>
