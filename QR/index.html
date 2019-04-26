@@ -12,8 +12,9 @@
     <body>
         <div class="login">
             <img src="img/logo.jpeg" alt="">
-            <input type="tel" name="" value="" placeholder="手机号码" class="phone">
-            <input type="password" name="" value="" placeholder="登录密码" class="pd">
+            <input type="tel" name="" value="" placeholder="手机号码" class="phone inp">
+            <input type="password" name="" value="" placeholder="登录密码" class="pd inp">
+            <p class="red">用户名或密码错误！</p>
             <a href="javascript:void(0)" class="loginBtn">登录</a>
         </div>
         <div class="loading">
@@ -30,13 +31,13 @@
             </div>
             <div class="list">
                 <ul class="clearfix">
-                    <li class="li1" value="dandeng">单灯控制器</li>
-                    <li class="li2" value="wanghe">网盒</li>
-                    <li class="li3" value="baojing">一键报警</li>
-                    <li class="li4" value="yinxiang">音响</li>
-                    <li class="li5" value="wifi">Wi-Fi</li>
-                    <li class="li6" value="shexiang">摄像头</li>
-                    <li class="li7" value="jiance">环境监测</li>
+                    <li class="li1" value="1">单灯控制器</li>
+                    <li class="li2" value="2">网盒</li>
+                    <li class="li3" value="3">一键报警</li>
+                    <li class="li4" value="4">音响</li>
+                    <li class="li5" value="5">Wi-Fi</li>
+                    <li class="li6" value="6">摄像头</li>
+                    <li class="li7" value="7">环境监测</li>
                 </ul>
             </div>
         </div>
@@ -47,107 +48,228 @@
             </div>
             <div class="single_main">
                 <h3>
-                    单灯控制器1
+                    <span></span>
                     <a href="javascript:void(0)"></a>
                 </h3>
                 <ul>
-                    <li>IP地址：192.168.0.0</li>
-                    <li>MAC地址：322135435454</li>
-                    <li>质保到期：2019.04.25</li>
-                    <li>产地：山东济南</li>
-                    <li>维修记录：在2019.03.01更换灯头</li>
-                </ul>
-            </div>
-            <div class="single_main">
-                <h3>
-                    单灯控制器2
-                </h3>
-                <ul>
-                    <li>IP地址：192.168.0.0</li>
-                    <li>MAC地址：322135435454</li>
-                    <li>质保到期：2019.04.25</li>
-                    <li>产地：山东济南</li>
-                    <li>维修记录：在2019.03.01更换灯头</li>
+                    <li>IP地址：<span class="ip"></span></li>
+                    <li>MAC地址：<span class="mac"></span></li>
+                    <li>质保到期：<span class="data"></span></li>
+                    <li>产地：<span class="place"></span></li>
+                    <li>维修记录：<span class="record"></span></li>
                 </ul>
             </div>
         </div>
         <div class="edit common">
             <div class="header">
-                <img src="img/left.png" alt="" class="return">
-                <span>单灯控制器</span>
+                <img src="img/left.png" alt="" class="return" value="1">
+                <span></span>
             </div>
             <div class="single_main">
                 <h3>
-                    单灯控制器1
+                    <span></span>
                 </h3>
                 <ul>
-                    <li>IP地址：192.168.0.0</li>
-                    <li>MAC地址：322135435454</li>
-                    <li>质保到期：2019.04.25</li>
-                    <li>产地：山东济南</li>
-                    <li>维修记录：在2019.03.01更换灯头</li>
+                    <li>IP地址：<span class="ip"></span></li>
+                    <li>MAC地址：<span class="mac"></span></li>
+                    <li>质保到期：<span class="data"></span></li>
+                    <li>产地：<span class="place"></span></li>
+                    <li>维修记录：<span class="record"></span></li>
                 </ul>
             </div>
             <h4>点击修改</h4>
             <ul class="edit_ul">
                 <li class="clearfix">
                     <span>IP地址：</span>
-                    <input type="text" name="" value="">
+                    <input type="text" name="" value="" class="ip">
                 </li>
                 <li class="clearfix">
                     <span>MAC地址：</span>
-                    <input type="text" name="" value="">
+                    <input type="text" name="" value="" class="mac">
                 </li>
                 <li class="clearfix">
                     <span>质保到期：</span>
-                    <input type="date" name="" value="1992-12-18" style="line-height:.8rem;">
+                    <input type="date" name="" value="1992-12-18" style="line-height:.8rem;" class="data">
                 </li>
                 <li class="clearfix">
                     <span>产地：</span>
-                    <input type="text" name="" value="">
+                    <input type="text" name="" value="" class="place">
                 </li>
                 <li class="clearfix">
                     <span>维修记录：</span>
-                    <input type="text" name="" value="">
+                    <input type="text" name="" value="" class="record">
                 </li>
             </ul>
             <a href="javascript:void(0)" class="submit">保存</a>
         </div>
     </body>
     <script type="text/javascript">
+    var host = 'http://192.168.13.129:8080'
     var type = ''
     var title = ''
-    $('.loginBtn').click(function(){
+    var mainData = []
+    var single = $('.single .single_main').prop('outerHTML')
+    $('.single .single_main').remove()
+    if(sessionStorage.token){
         $('.login').fadeOut()
         $('.loading').fadeIn()
-        setTimeout(function(){
-            $('.loading').fadeOut()
-            $('.preview').fadeIn()
-        },3000)
+        polling()
+    }
+    $('.inp').input(function(){
+        
+    })
+    function polling() {
+        $('.list li').hide()
+        $.ajax({
+            type:'GET',
+            url:host + '/jeecg-boot/busin/equipmentInfo/list',
+            data:{
+                pj:'0001',
+                eq:'0001'
+            },
+            beforeSend:function(request){
+                request.setRequestHeader('X-Access-Token',sessionStorage.token)
+            },
+            success:function(res){
+                if(res.success){
+                    $('.loading,.edit,.single').fadeOut()
+                    $('.preview').fadeIn()
+                    $('.single .single_main').remove()
+                    mainData = res.result
+                    $('.main h3').text(res.result[0].lightpoleNumber)
+                    for(var i = 0;i < mainData.length;i++){
+                        $('.list li').eq(mainData[i].equipmentCode - 1).show()
+                    }
+                }
+            }
+        })
+    }
+    function login(){
+        var userName = $('.phone').val()
+        var passWord = $('.pd').val()
+        var dataA = {
+            'username':userName,
+            'password':passWord
+        }
+
+        if(userName && passWord){
+
+            $('.loading').fadeIn()
+            $.ajax({
+                type: 'POST',
+                url:host + '/jeecg-boot/sys/login',
+                contentType: 'application/json;charset-UTF-8',
+                data:JSON.stringify(dataA),
+                success:function(res){
+                    if(res.success){
+                        sessionStorage.setItem('token',res.result.token)
+                        sessionStorage.setItem('edit',false)
+                        if(res.result.role){
+                            for(var i = 0;i < res.result.role.length;i ++){
+                                if(res.result.role[i] == 'up_equipment'){
+                                    sessionStorage.setItem('edit',true)
+                                }
+                            }
+                        }
+                        $('.login').fadeOut()
+                        polling()
+                    }else{
+                        $('.login .red').show()
+                        $('.login').fadeIn()
+                        $('.loading').fadeOut()
+                    }
+                }
+            })
+        }
+    }
+    $('.loginBtn').click(function(){
+        login()
     })
     $('.list li').click(function(){
         type = $(this).attr('value')
         title = $(this).text()
-
         $('.preview').fadeOut()
         $('.single').fadeIn()
-
+        for(var i = 0;i < mainData.length; i++){
+            if(mainData[i].equipmentCode == type){
+                $('.single .header').after(single)
+                $('.single .single_main').eq(0).find('h3 span').text(mainData[i].equipmentName)
+                $('.single .single_main').eq(0).find('.ip').text(mainData[i].ipAddress)
+                $('.single .single_main').eq(0).find('.mac').text(mainData[i].macAddress)
+                $('.single .single_main').eq(0).find('.data').text(mainData[i].expirationWrranty)
+                $('.single .single_main').eq(0).find('.place').text(mainData[i].place)
+                $('.single .single_main').eq(0).find('.record').text(mainData[i].maintenanceRecord)
+                $('.single .single_main').eq(0).find('h3 a').attr('value',mainData[i].id)
+            }
+        }
         $('.header span').text(title)
+        if(sessionStorage.edit != 'false'){
+            $('.single .single_main h3 a').show()
+        }else{
+            $('.single .single_main h3 a').hide()
+        }
     })
-
-    $('.single_main h3 a').click(function(){
+    $(document).on('click','.single_main h3 a',function() {
+        var id = $(this).attr('value')
         $('.single').fadeOut()
         $('.edit').fadeIn()
-    })
 
+        for(var i = 0;i < mainData.length;i ++){
+            if(id == mainData[i].id){
+                $('.edit .single_main').find('h3 span').text(mainData[i].equipmentName)
+                $('.edit .single_main').find('.ip').text(mainData[i].ipAddress)
+                $('.edit .single_main').find('.mac').text(mainData[i].macAddress)
+                $('.edit .single_main').find('.data').text(mainData[i].expirationWrranty)
+                $('.edit .single_main').find('.place').text(mainData[i].place)
+                $('.edit .single_main').find('.record').text(mainData[i].maintenanceRecord)
+
+                $('.edit_ul').find('.ip').val(mainData[i].ipAddress)
+                $('.edit_ul').find('.mac').val(mainData[i].macAddress)
+                $('.edit_ul').find('.data').val(mainData[i].expirationWrranty)
+                $('.edit_ul').find('.place').val(mainData[i].place)
+                $('.edit_ul').find('.record').val(mainData[i].maintenanceRecord)
+                $('.submit').attr('value',id)
+            }
+        }
+    })
     $('.return').click(function(){
+        if($(this).attr('value') != 1){
+            $('.single .single_main').remove()
+        }
         $(this).parents('.common').fadeOut()
         $(this).parents('.common').prev('.common').fadeIn()
-
-
+    })
+    $('.submit').click(function(){
+        var Data = {}
+        Data.id = $(this).attr('value')
+        for(var i = 0;i < mainData.length;i++){
+            if(Data.id == mainData[i].id){
+                Data.project = mainData[i].project
+                Data.equipmentType = mainData[i].equipmentType
+                Data.ipAddress = $('.edit_ul').find('.ip').val()
+                Data.macAddress = $('.edit_ul').find('.mac').val()
+                Data.place = $('.edit_ul').find('.place').val()
+                Data.expirationWrranty = $('.edit_ul').find('.data').val()
+                Data.maintenanceRecord = $('.edit_ul').find('.record').val()
+            }
+        }
+        $('.loading').fadeIn()
+        $.ajax({
+            type:'POST',
+            url:host + '/jeecg-boot/busin/equipmentInfo/updataEquipmentInfo',
+            contentType: 'application/json;charset-UTF-8',
+            data:JSON.stringify(Data),
+            beforeSend:function(request){
+                request.setRequestHeader('X-Access-Token',sessionStorage.token)
+            },
+            success:function(res){
+                if(res.success){
+                    polling()
+                }
+            }
+        })
 
     })
-
     </script>
 
 </html>
