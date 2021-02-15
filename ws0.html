@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <script type="text/javascript" src="socket.io.js"></script>
+    </head>
+    <body>
+        <input type="text" name="" value="">
+        <script type="text/javascript">
+        var url = 'ws://www.aaa.com:8080'
+        // var socket = io(url)
+        // socket.on('connect',function(){
+        //     socket.on('message',function(msg){
+        //         console.log('data form server:' + msg);
+        //     })
+        //     socket.on('disconnect',function() {
+        //         console.log('Server socket closed');
+        //     })
+        // })
+        // document.getElementsByTagName('input')[0].onblur = function(){
+        //     socket.send(this.value)
+        //     console.log(this.value);
+        // }
+
+        var ws = new WebSocket(url);
+        ws.onmessage = function(msg){
+            console.log('data form server:' + msg);
+        }
+        document.getElementsByTagName('input')[0].onblur = function(){
+            ws.send(this.value)
+            console.log(this.value);
+        }
+
+
+
+        </script>
+    </body>
+</html>

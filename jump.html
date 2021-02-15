@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css"/>
+        <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.14&key=ee55c88e6316ee11eb69b57d64af0773"></script>
+        <style>
+        .marker {
+            color: #ff6600;
+            padding: 4px 10px;
+            border: 1px solid #fff;
+            white-space: nowrap;
+            font-size: 12px;
+            font-family: "";
+            background-color: #0066ff;
+        }
+        .amap-logo,.amap-copyright{display: none!important;}
+        .input-item{position: relative;z-index: 9999;}
+        </style>
+    </head>
+    <body>
+    <div id="mapContainer">
+          <div class="input-item">
+              <input type="button" class="btn" value="开始动画" id="start" onclick="startAnimation()"/>
+              <input type="button" class="btn" value="暂停动画" id="pause" onclick="pauseAnimation()"/>
+          </div>
+          <div class="input-item">
+              <input type="button" class="btn" value="继续动画" id="resume" onclick="resumeAnimation()"/>
+              <input type="button" class="btn" value="停止动画" id="stop" onclick="stopAnimation()"/>
+          </div>
+    </div>
+    <script>
+    // var imageLayer = new AMap.ImageLayer({
+    //     url: '111.png',
+    //     bounds: new AMap.Bounds(
+    //         [116.374901, 39.908823],
+    //         [116.415756, 39.932652]
+    //     ),
+    //     zooms: [12, 18]
+    // });
+    var  lineArr = [
+        [116.478935,39.997761],
+        [116.478939,39.997825],
+        [116.478912,39.998549],
+        [116.478912,39.998549],
+        [116.478998,39.998555],
+        [116.478998,39.998555],
+        [116.479282,39.99856],
+        [116.479658,39.998528],
+        [116.480151,39.998453],
+        [116.480784,39.998302],
+        [116.480784,39.998302],
+        [116.481149,39.998184],
+        [116.481573,39.997997],
+        [116.481863,39.997846],
+        [116.482072,39.997718],
+        [116.482362,39.997718],
+        [116.483633,39.998935],
+        [116.48367,39.998968],
+        [116.484648,39.999861]
+    ];
+
+    var map = new AMap.Map('mapContainer', {
+        scrollWheel: true,
+        center: [116.397217, 39.908428],
+        zooms: [12, 18],
+        viewMode:'3D',
+        showLabel:false,
+        // layers: [
+        //     new AMap.TileLayer(),
+        //     imageLayer
+        // ]
+    });
+
+    map.on('click',function(e){
+        console.log(e);
+    })
+
+    // 构造自定义点标记
+    var markerContent = '' +
+       '<div class="custom-content-marker">' +
+       '   <img src="https://github.com/fluidicon.png" style="width:20px;height:20px;">' +
+       '   <div class="close-btn" onclick="clearMarker()">X</div>' +
+       '</div>';
+    var marker = new AMap.Marker({
+        content:markerContent,
+        position: [116.405467, 39.907761]
+    });
+    map.add(marker);
+    function clearMarker(){
+        map.remove(marker)
+    }
+
+    var marker1 = new AMap.Marker({
+       map: map,
+       position: [116.478935,39.997761],
+       icon: "https://webapi.amap.com/images/car.png",
+       offset: new AMap.Pixel(-26, -13),
+       autoRotation: true,
+       angle:-90,
+   });
+   map.add(marker1);
+
+   var polyline = new AMap.Polyline({
+      map: map,
+      path: lineArr,
+      showDir:true,
+      strokeColor: "#28F",  //线颜色
+      // strokeOpacity: 1,     //线透明度
+      strokeWeight: 6,      //线宽
+      // strokeStyle: "solid"  //线样式
+  });
+
+  var passedPolyline = new AMap.Polyline({
+      map: map,
+      // path: lineArr,
+      strokeColor: "#AF5",  //线颜色
+      // strokeOpacity: 1,     //线透明度
+      strokeWeight: 6,      //线宽
+      // strokeStyle: "solid"  //线样式
+  });
+
+  marker1.on('moving', function (e) {
+      passedPolyline.setPath(e.passedPath);
+  });
+
+  map.setFitView();
+
+  function startAnimation () {
+      marker1.moveAlong(lineArr, 200);
+  }
+
+  function pauseAnimation () {
+      marker1.pauseMove();
+  }
+
+  function resumeAnimation () {
+      marker1.resumeMove();
+  }
+
+  function stopAnimation () {
+      marker1.stopMove();
+  }
+
+
+    //限制地图显示范围
+    function lockMapBounds() {
+      var bounds = map.getBounds();
+      map.setLimitBounds(bounds);
+    }
+    lockMapBounds();
+
+    </script>
+
+</body>
+</html>

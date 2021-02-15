@@ -8,7 +8,7 @@
     <body>
         <input type="text" name="" value="">
         <script type="text/javascript">
-        var url = 'http://www.domain2.com:8080'
+        var url = 'ws://192.168.13.129:8080/websocket'
         var socket = io(url)
         socket.on('connect',function(){
             socket.on('message',function(msg){
@@ -18,10 +18,30 @@
                 console.log('Server socket closed');
             })
         })
-        document.getElementsByTagName('input')[0].onblur = function(){
-            socket.send(this.value)
-            console.log(this.value);
-        }
+        // document.getElementsByTagName('input')[0].onblur = function(){
+        //     socket.send(this.value)
+        //     console.log(this.value);
+        // }
+
+        // var ws = new WebSocket(url);
+        // ws.onmessage = function(msg){
+        //     console.log('data form server:' + msg);
+        // }
+        // document.getElementsByTagName('input')[0].onblur = function(){
+        //     ws.send(this.value)
+        // }
+
+        // var ws = new WebSocket(url);
+        // ws.onmessage = function(msg){
+        //     console.log('data form server:' + JSON.stringify(msg));
+        // }
+        // ws.onopen = () =>{
+        //     console.log(1);
+        //     ws.send(1)
+        // }
+
+
+
         </script>
     </body>
 </html>
